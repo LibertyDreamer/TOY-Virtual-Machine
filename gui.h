@@ -4,22 +4,8 @@
 #include <array>
 #include <ncurses.h>
 #include <string>
-#include <unistd.h>
 
-class InitNcurse {
-public:
-  WINDOW *win;
-
-  InitNcurse() {
-    win = initscr();
-    halfdelay(1);
-    noecho();
-    curs_set(FALSE);
-  }
-  ~InitNcurse() { endwin(); }
-} inline ncurse_init;
-
-void print_status_counter(const int y_pos, const int x_pos);
+void print_status_counter(int y_pos, int x_pos);
 
 void set_fetch_status();
 void set_increment_status();

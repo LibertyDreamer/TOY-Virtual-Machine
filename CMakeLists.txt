@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Curses REQUIRED)
 include_directories(${CURSES_INCLUDE_DIR})
 
-add_executable(TOY main.cpp command.h gui.h gui.cpp toy.h toy.cpp)
+add_executable(TOY main.cpp command.h gui.h gui.cpp toy.h toy.cpp controller.h controller.cpp)
 target_link_libraries(TOY ${CURSES_LIBRARIES})
 
 install(TARGETS TOY

@@ -73,6 +73,10 @@ uint8_t Toy::get_pc() { return pc_; }
 
 ToyState Toy::get_state() { return state_; }
 
+uint16_t Toy::io_read() const { return memory_[256]; }
+
+void Toy::io_write(uint16_t data) { memory_[256] = data; }
+
 bool Toy::save_memory_dump(const std::string &path) const {
   std::ofstream file(path);
 

@@ -1,6 +1,20 @@
 #include "gui.h"
+#include "ncurses.h"
 
-void print_status_counter(const int y_pos, const int x_pos) {
+class InitNcurse {
+public:
+  WINDOW *win;
+
+  InitNcurse() {
+    win = initscr();
+    halfdelay(1);
+    noecho();
+    curs_set(FALSE);
+  }
+  ~InitNcurse() { endwin(); }
+} inline ncurse_init;
+
+void print_status_counter(int y_pos, int x_pos) {
   int x, y;
   printw("--------------STATUS COUNTER---------------\n");
   printw(" FETCH \n");
@@ -33,19 +47,19 @@ void print_instruction(uint16_t cmd) {
 void print_status(ToyState state) {
   switch (state) {
   case FETCH:
-      set_fetch_status();
-      break;
+    set_fetch_status();
+    break;
   case INCREMENT:
-      set_increment_status();
-      break;
+    set_increment_status();
+    break;
   case EXECUTE:
-      set_execute_status();
-      break;
+    set_execute_status();
+    break;
   case POST_EXECUTE:
-      set_post_execute_status();
-      break;
+    set_post_execute_status();
+    break;
   default:
-      break;
+    break;
   }
 }
 
@@ -53,7 +67,7 @@ void print_registers(const std::array<uint16_t, 16> &registers) {
   printw("-----------------REGISTER------------------\n");
 
   for (uint8_t i = 0; i < 16; ++i) {
-      printw(" R%X [ %016b ] ( 0x%04X )\n", i, registers[i], registers[i]);
+    printw(" R%X [ %016b ] ( 0x%04X )\n", i, registers[i], registers[i]);
   }
 
   printw("\n");
@@ -63,11 +77,11 @@ void print_memory(const std::array<uint16_t, 256> &memory, uint8_t pc) {
   printw("------------------MEMORY-------------------\n");
 
   for (int i = -2; i < 3; ++i) {
-      printw(" [0x%02X] [ %016b ] ( 0x%04X )", pc + i, memory[pc + i],
-             memory[pc + i]);
-      if (i == 0)
-          printw(" (PC) ");
-      printw("\n");
+    printw(" [0x%02X] [ %016b ] ( 0x%04X )", pc + i, memory[pc + i],
+           memory[pc + i]);
+    if (i == 0)
+      printw(" (PC) ");
+    printw("\n");
   }
   printw("\n");
 

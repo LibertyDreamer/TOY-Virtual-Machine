@@ -4,7 +4,6 @@
 #include <array>
 #include <cstring>
 #include <fstream>
-#include <list>
 #include <string>
 
 enum ToyState { FETCH, INCREMENT, EXECUTE, POST_EXECUTE };
@@ -54,8 +53,8 @@ public:
     }
   }
 
-  uint16_t io_read() const { return memory_[256]; }
-  void io_write(uint16_t data) { memory_[256] = data; }
+  uint16_t io_read() const;
+  void io_write(uint16_t data);
 
   bool save_memory_dump(const std::string &path) const;
   bool load_memory_dump(const std::string &path);
