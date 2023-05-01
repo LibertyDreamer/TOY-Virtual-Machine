@@ -4,7 +4,6 @@
 
 class Controller {
   Toy *toy;
-  GUI *gui;
 
   uint64_t clock;
 
@@ -17,7 +16,7 @@ class Controller {
   } state;
 
   void get_input() {
-    int input = gui->get_char();
+    int input = get_char();
     switch (input) {
     case 's':
       state = STOP;
@@ -40,19 +39,19 @@ class Controller {
   }
 
   void draw() {
-    gui->clear_screen();
+    clear_screen();
 
-    gui->print_clock(clock / 4);
-    gui->print_instruction(toy->get_command().raw);
-    gui->print_status(toy->get_state());
-    gui->print_registers(toy->get_registers());
-    gui->print_memory(toy->get_memory(), toy->get_pc());
+    print_clock(clock / 4);
+    print_instruction(toy->get_command().raw);
+    print_status(toy->get_state());
+    print_registers(toy->get_registers());
+    print_memory(toy->get_memory(), toy->get_pc());
 
     // gui->update_screen(); /// TODO: getchar тоже вызывает апдейт
   }
 
 public:
-  Controller(Toy *toy, GUI *gui) : toy(toy), gui(gui), clock(0), state(PAUSE) {}
+  Controller(Toy *toy) : toy(toy), clock(0), state(PAUSE) {}
 
   bool is_alive() {
     get_input();
@@ -72,7 +71,7 @@ public:
       state = PAUSE;
 
     if (state == SHOW_HELP) {
-      gui->show_help();
+      show_help();
       state = PAUSE;
       return;
     }
@@ -85,11 +84,9 @@ public:
 
 int main() {
   Toy toy;
-  GUI gui;
-
   toy.load_memory_dump("dump.txt");
 
-  Controller controller(&toy, &gui);
+  Controller controller(&toy);
 
   while (controller.is_alive()) {
     controller.do_it();

@@ -2,12 +2,12 @@
 
 void Toy::fetch() {
   ir_.raw = memory_[pc_];
-  state = INCREMENT;
+  state_ = INCREMENT;
 }
 
 void Toy::increment() {
   pc_++;
-  state = EXECUTE;
+  state_ = EXECUTE;
 }
 
 void Toy::execute() {
@@ -37,7 +37,7 @@ void Toy::execute() {
     case 15: R[d] = pc_; pc_ = addr;      break;    // jump and link
     }
   // clang-format on
-  state = POST_EXECUTE;
+  state_ = POST_EXECUTE;
 
 #undef d
 #undef s
@@ -50,7 +50,7 @@ void Toy::execute() {
 
 void Toy::post_execute() {
   registers_[0] = 0;
-  state = FETCH;
+  state_ = FETCH;
 }
 
 Toy::Toy() { hard_reset(); }
@@ -60,7 +60,7 @@ void Toy::hard_reset() {
   std::memset(&memory_, 0, sizeof(memory_));
   std::memset(&registers_, 0, sizeof(registers_));
   ir_.raw = 0;
-  state = FETCH;
+  state_ = FETCH;
 }
 
 std::array<uint16_t, 16> Toy::get_registers() { return registers_; }
@@ -71,9 +71,9 @@ Command Toy::get_command() { return ir_; }
 
 uint8_t Toy::get_pc() { return pc_; }
 
-ToyState Toy::get_state() { return state; }
+ToyState Toy::get_state() { return state_; }
 
-bool Toy::save_memory_dump(const std::string &path) {
+bool Toy::save_memory_dump(const std::string &path) const {
   std::ofstream file(path);
 
   if (!file.is_open())

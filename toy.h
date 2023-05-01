@@ -10,7 +10,7 @@
 enum ToyState { FETCH, INCREMENT, EXECUTE, POST_EXECUTE };
 
 class Toy {
-  ToyState state;
+  ToyState state_;
 
   //  TimeMachine time_machine; TODO
   std::array<uint16_t, 256> memory_; // mem 0xFF -> IO
@@ -36,7 +36,7 @@ public:
   ToyState get_state();
 
   void exec() {
-    switch (state) {
+    switch (state_) {
     case FETCH:
       fetch();
       break;
@@ -54,10 +54,10 @@ public:
     }
   }
 
-  uint16_t io_read() { return memory_[256]; }
-  void io_write(uint16_t data) { memory_[256] == data; }
+  uint16_t io_read() const { return memory_[256]; }
+  void io_write(uint16_t data) { memory_[256] = data; }
 
-  bool save_memory_dump(const std::string &path);
+  bool save_memory_dump(const std::string &path) const;
   bool load_memory_dump(const std::string &path);
 
   // bool save_raw_memory_dump(const std::string &path) {} TODO
