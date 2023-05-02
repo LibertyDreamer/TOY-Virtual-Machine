@@ -54,3 +54,4 @@ jobs:
         asset_path: ./TOY-0.0.${{ github.run_number }}-Linux.deb
         asset_name: TOY-0.0.${{ github.run_number }}-Linux.deb
         sset_content_type: application/vnd.debian.binary-package
+
